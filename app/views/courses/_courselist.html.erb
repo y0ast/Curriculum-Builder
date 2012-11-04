@@ -1,0 +1,9 @@
+<% @courses.each do |course| %>
+	<div class="course <%= course.major.name %> <%= course.period.offered_in %>" draggable="true">
+		<ul>
+		  <li><h5><%= course.name %></h5></li>
+		  <li><%= course.major.name %> - <%= course.level %></li>
+		  <li><%= course.period.offered_in %></li>
+		</ul>
+	</div>
+<% end %>

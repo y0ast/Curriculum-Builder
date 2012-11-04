@@ -1,0 +1,117 @@
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.rowhead {
+  min-width: 70px;
+}
+#curriculum {
+  float:left;
+  width: 815px;
+}
+
+#wrapper{
+  width: 1200px;
+}
+
+#courses {
+  .course{
+    margin-bottom: 20px;
+  }
+  float:left;
+  margin: 0px 10px 0px 25px; 
+  width: 170px;
+}
+
+.SCI{ 
+  background-color: #D6C6A5;
+}
+
+.SSC{
+  background-color: #AFA0C7;
+}
+
+.HUM{ 
+  background-color: #B6CEE3;
+}
+
+.course {
+  li {
+    line-height: 16px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 5px 0px 0px 5px;
+    padding: 0;
+  }
+  font-size: 8pt;
+  height: 60px;
+  width: 125px;
+  float: left;
+  
+  
+  -webkit-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  cursor: move;
+
+  -webkit-box-shadow: 1px 1px 3px 1px #555;
+  -moz-box-shadow: 1px 1px 3px 1px #555;
+  box-shadow: 1px 1px 3px 1px #555;
+
+  border: 1px solid #000;
+}
+
+.course.over, .courseplace.over{
+  border: 2px dashed #000;
+}
+
+.green {
+  background-color: #90EE90;
+}
+
+.red {
+  background-color: #FF3030;
+}
+
+.bin {
+  background-image: url("domo.png"); 
+  height: 240px;
+  width: 206px;
+  position:fixed;
+  bottom:0;
+  margin-left:-30px;
+}
+
+.bin-over {
+  /*
+  something funny
+  */
+}
+
+.courseplace {
+  -webkit-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  height:60px;
+  width:125px;
+  border: 2px solid #ccc;
+}
+
+.courseplace.course{
+  border: 1px solid #000;
+}
+
+.icon-plus, .icon-remove-circle {
+  cursor: pointer;
+  float:right; 
+}
+

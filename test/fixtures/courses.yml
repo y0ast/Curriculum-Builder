@@ -1,0 +1,35 @@
+# == Schema Information
+#
+# Table name: courses
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  coursecode  :string(255)
+#  description :string(255)
+#  teacher     :string(255)
+#  major       :string(255)
+#  track       :string(255)
+#  level       :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  course_id: MyString
+  description: MyString
+  teacher: MyString
+  major: MyString
+  track: MyString
+  level: 1
+
+two:
+  name: MyString
+  course_id: MyString
+  description: MyString
+  teacher: MyString
+  major: MyString
+  track: MyString
+  level: 1

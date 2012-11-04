@@ -1,0 +1,117 @@
+<div id="wrapper">
+  <div id="courses">
+    <%= form_tag courses_path, :method => 'get' do %>
+      <div class="input-prepend">
+        <span class="add-on"><i class='icon-search'></i></span>
+        <%= search_field_tag :search,'', {:class => 'span2', :placeholder => "Enter a course name", :id =>"prependedInput"} %>       
+      </div>
+    <% end %>
+
+  <div class="courselist">
+ </div>
+
+    <div class="bin"></div>
+  </div>
+
+  <div id="curriculum">
+  <table class="table table-bordered">
+    <tr>
+      <th class="rowhead"><a href="#" class="february" data-placement="bottom" data-title="Press here if you started in February. Watch out this erases the schedule!"><i class="icon-comment"></i></a></th>
+      <th>Course 1</th>
+      <th>Course 2</th>
+      <th>Course 3</th>
+      <th>Course 4 <i class="icon-plus"></i></th>
+      <th style="display:none;" id="course5">Course 5 <i class="icon-remove-circle"></i></th>
+      <th>Intensive period</th>
+    </tr>
+    <tr>
+      <td class="rowhead"><p>Semester 6</p><p class="period">Spring</p></td>
+      <td><div class="courseplace spring" id="y3s2c1"></div></td>
+      <td><div class="courseplace spring" id="y3s2c2"></div></td>
+      <td><div class="courseplace spring" id="y3s2c3"></div></td>
+      <td><div class="courseplace spring" id="y3s2c4"></div></td>
+      <td style="display:none;"><div class="courseplace spring" id="y3s2c5"></div></td>
+      <td><div class="courseplace intensive-spring" id="y3in2"></div></td>
+    </tr>
+    <tr>
+      <td class="rowhead"><p>Semester 5</p><p class="period">Fall</p></td>
+      <td><div class="courseplace fall" id="y3s1c1"></div></td>
+      <td><div class="courseplace fall" id="y3s1c2"></div></td>
+      <td><div class="courseplace fall" id="y3s1c3"></div></td>
+      <td><div class="courseplace fall" id="y3s1c4"></div></td>
+      <td style="display:none;"><div class="courseplace fall" id="y3s1c5"></div></td>
+      <td><div class="courseplace intensive-fall" id="y3in1"></div></td>
+    </tr>
+    <tr>
+      <td class="rowhead"><p>Semester 4</p><p class="period">Spring</p></td>
+      <td><div class="courseplace spring" id="y2s2c1"></div></td>
+      <td><div class="courseplace spring" id="y2s2c2"></div></td>
+      <td><div class="courseplace spring" id="y2s2c3"></div></td>
+      <td><div class="courseplace spring" id="y2s2c4"></div></td>
+      <td style="display:none;"><div class="courseplace spring" id="y2s2c5"></div></td>
+      <td><div class="courseplace intensive-spring" id="y2in2"></div></td>
+    </tr>
+    <tr>
+      <td class="rowhead"><p>Semester 3</p><p class="period">Fall</p></td>
+      <td><div class="courseplace fall" id="y2s1c1"></div></td>
+      <td><div class="courseplace fall" id="y2s1c2"></div></td>
+      <td><div class="courseplace fall" id="y2s1c3"></div></td>
+      <td><div class="courseplace fall" id="y2s1c4"></div></td>
+      <td style="display:none;"><div class="courseplace fall" id="y2s1c5"></div></td>
+      <td><div class="courseplace intensive-fall" id="y2in1"></div></td>
+    </tr>
+    <tr>
+      <td class="rowhead"><p>Semester 2</p><p class="period">Spring</p></td>
+      <td><div class="courseplace spring" id="y1s2c1"></div></td>
+      <td><div class="courseplace spring" id="y1s2c2"></div></td>
+      <td><div class="courseplace spring" id="y1s2c3"></div></td>
+      <td><div class="courseplace spring" id="y1s2c4"></div></td>
+      <td style="display:none;"><div class="courseplace spring" id="y1s2c5"></div></td>
+      <td><div class="courseplace intensive-spring" id="y1in2"></div></td>
+    </tr>
+    <tr>
+      <td class="rowhead"><p>Semester 1</p><p class="period">Fall</p></td>
+      <td><div class="courseplace fall" id="y1s1c1"></div></td>
+      <td><div class="courseplace fall" id="y1s1c2"></div></td>
+      <td><div class="courseplace fall" id="y1s1c3"></div></td>
+      <td><div class="courseplace fall" id="y1s1c4"></div></td>
+      <td style="display:none;"><div class="courseplace fall" id="y1s1c5"></div></td>
+      <td><div class="courseplace intensive-fall" id="y1in1"></div></td>
+    </tr>
+  </table>
+  </div>
+</div>
+
+<script>
+$(function() {
+
+ // Below is the name of the textfield that will be autocomplete    
+    $('#prependedInput').autocomplete({
+            minLength: 2,
+            source: '<%= courses_path(:json) %>',
+            focus: function(event, ui) {
+                $('#prependedInput').val(ui.item.name);
+                return false;
+            },
+ // Once a value in the drop down list is selected, do the following:
+            select: function(event, ui) {
+ // place the person.given_name value into the textfield called 'select_origin'...
+                $('#prependedInput').val('');
+                $('.courselist').append('<div class="course ' + ui.item.major.name + ' ' + ui.item.period.offered_in + '" draggable="true"><ul><li><h5>' + ui.item.name +'</h5></li><li>' + ui.item.major.name + ' - ' + ui.item.level +'</li><li>' + ui.item.period.offered_in + '</li></ul></div>');
+                var courses = document.querySelectorAll('.course');
+                [].forEach.call(courses, function(course){
+                  addStartEnd(course);
+                });
+                return false;
+            }
+        })
+ // The below code is straight from the jQuery example. It formats what data is displayed in the dropdown box, and can be customized.
+        .data( "autocomplete" )._renderItem = function( ul, item ) {
+            return $( "<li></li>" )
+                .data( "item.autocomplete", item )
+ // For now which just want to show the person.given_name in the list.
+                .append( "<a>" + item.name + "</a>" )
+                .appendTo( ul );
+        };
+});
+</script>
