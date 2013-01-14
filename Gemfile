@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.11'
 gem 'bootstrap-sass', '2.0.4'
 
 # Bundle edge Rails instead:
@@ -8,7 +8,6 @@ gem 'bootstrap-sass', '2.0.4'
 
 gem 'pg'
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.

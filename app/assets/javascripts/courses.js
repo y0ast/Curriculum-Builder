@@ -25,12 +25,7 @@ $(function(){
 
       $("#curriculum").css("width","975");
 
-      $("#y3s2c5").parent('td').show('slow');
-      $("#y3s1c5").parent('td').show('slow');
-      $("#y2s2c5").parent('td').show('slow');
-      $("#y2s1c5").parent('td').show('slow');
-      $("#y1s2c5").parent('td').show('slow');
-      $("#y1s1c5").parent('td').show('slow');
+      $(".course5").show('slow');
 
       $(".icon-plus").hide();
     });
@@ -39,12 +34,8 @@ $(function(){
       $("#curriculum").css("width","1050"); //fix for weird resizing of first column
       $("#course5").hide('slow');
 
-      $("#y3s2c5").parent('td').hide('slow');
-      $("#y3s1c5").parent('td').hide('slow');
-      $("#y2s2c5").parent('td').hide('slow');
-      $("#y2s1c5").parent('td').hide('slow');
-      $("#y1s2c5").parent('td').hide('slow');
-      $("#y1s1c5").parent('td').hide('slow');
+      $(".course5").hide('slow');
+   
 
       $(".icon-plus").show();
 
