@@ -1,0 +1,41 @@
+<h1><%= @course.name %></h1>
+
+
+<div class="span8 offset2">
+	<table class ="table">
+		<tbody>
+			<tr>
+				<td>Course:</td>
+				<td><%= @course.name %> </td>
+			</tr>
+			<tr>
+				<td>Course code:</td>
+				<td><%= @course.coursecode %></td>
+			</tr>
+			<tr>
+				<td>Course description:</td>
+				<td><%= @course.description %></td>
+			</tr>
+			<tr>
+				<td>Teacher:</td>
+				<td><%= @course.teacher %></td>
+			</tr>
+			<tr>
+				<td>Track:</td>
+				<td><%= @course.track %></td>
+			</tr>
+			<tr>
+				<td>Level:</td>
+				<td><%= @course.level %></td>
+			</tr>
+			<tr>
+				<td>Period:</td>
+				<td><%= @course.period.offered_in %></td>
+			</tr>
+			<tr>
+				<td>Major:</td>
+				<td><%= @course.major.name %></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
