@@ -10,6 +10,7 @@
   Major.find_or_create_by_name(major)
 end
 
-["fall", "spring", "intensive-fall", "intensive-spring"].each do |period|
+["fall", "spring", "intensive-fall", "intensive-spring", "fall spring", "intensive-fall intensive-spring"].each do |period|
   Period.find_or_create_by_name(major)
 end
+

@@ -18,6 +18,11 @@
 class Course < ActiveRecord::Base
 	belongs_to :period
 	belongs_to :major
+	has_and_belongs_to_many :prerequisites,
+    :join_table => "prerequisites",
+    :association_foreign_key => "prerequisite",
+    :class_name => "Course"
+
 	attr_accessible :coursecode, :description, :level, :major_id, :name, :teacher, :track, :period_id
 
 	validates :name, presence: true
