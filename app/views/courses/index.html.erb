@@ -1,16 +1,19 @@
 <div id="wrapper">
   <div id="courses">
-    <%= form_tag courses_path, :method => 'get' do %>
-      <div class="input-prepend">
-        <span class="add-on"><i class='icon-search'></i></span>
-        <%= search_field_tag :search,'', {:class => 'span2', :placeholder => "Enter a course name", :id =>"prependedInput"} %>       
-      </div>
-    <% end %>
+    <div>
+      <%= form_tag courses_path, :method => 'get' do %>
+        <div class="input-prepend">
+          <span class="add-on"><i class='icon-search'></i></span>
+          <%= search_field_tag :search,'', {:class => 'span2', :placeholder => "Enter a course name", :id =>"prependedInput"} %>       
+        </div>
+      <% end %>
+    </div>
 
-  <div class="courselist">
- </div>
+    <div class="courselist">
+    </div>
 
-    <div class="bin"></div>
+    <div class="bin">
+    </div>
   </div>
 
   <div id="curriculum">
@@ -104,6 +107,7 @@ $(function() {
                 });
                 return false;
             }
+
         })
  // The below code is straight from the jQuery example. It formats what data is displayed in the dropdown box, and can be customized.
         .data( "autocomplete" )._renderItem = function( ul, item ) {
