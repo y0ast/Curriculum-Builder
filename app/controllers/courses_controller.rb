@@ -21,15 +21,17 @@ class CoursesController < ApplicationController
   end
 
   def index
-   if params[:term]
+  if params[:term]
     @courses = Course.search(params[:term]).limit(10)
+  elsif params[:id]
+    @courses = Course.find(params[:id])
   else
     @courses = Course.all
   end
 
   respond_to do |format|  
     format.html 
-    format.json { render :json => @courses.to_json(:include => [:major, :period]) }
+    format.json { render :json => @courses.to_json(:include => [:major, :period, :prerequisites]) }
     end
     
   end
