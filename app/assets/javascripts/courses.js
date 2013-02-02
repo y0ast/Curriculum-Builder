@@ -97,6 +97,47 @@ function storagetodiv(id){
    checkprereq(id);
 }
 
+function findintensiveplace(start, period, y, s){
+  if(period.indexOf("fall") != -1 && period.indexOf("spring") != -1){
+     if(localStorage.getItem("y" + y + "in" + s) === null){
+      return "y" + y + "in" + s
+    }
+    else if (s < 2){
+      return findintensiveplace(start, period, y, s+1)
+    }
+    else if (y < 3){
+      return findintensiveplace(start, period, y+1, 1)
+    }
+    else {
+      return "y1in1"
+    }
+  } 
+  else if (period.indexOf("fall") != -1) {
+    start == "fall" ? s = 1 : s = 2;
+    if(localStorage.getItem("y" + y + "in" + s) === null){
+      return "y" + y + "in" + s
+    }
+    else if (y < 3){
+      return findintensiveplace(start, period, y+1, s)
+    }
+    else {
+      return "y1in" + 2
+    }
+  }
+  else if (period.indexOf("spring") != -1){
+    start == "spring" ? s = 1 : s = 2;
+    if(localStorage.getItem("y" + y + "in" + s) === null){
+      return "y" + y + "in" + s
+    }
+    else if (y < 3){
+      return findintensiveplace(start, period, y+1, s)
+    }
+    else {
+      return "y1in" + 2
+    }
+  }
+}
+
 function findplace(start, period, y, s, c){
   var amountOfCourses = 4;
 
@@ -120,7 +161,7 @@ function findplace(start, period, y, s, c){
     }
   }
   else if (period.indexOf("fall") != -1) {
-    start == period ? s = 1 : s = 2;
+    start == "fall" ? s = 1 : s = 2;
 
     if(localStorage.getItem("y" + y + "s" + s + "c" + c) === null){
       return "y" + y + "s" + s + "c" + c
@@ -135,7 +176,7 @@ function findplace(start, period, y, s, c){
       return "y1s1c1";
     }
   } else if (period.indexOf("spring") != -1){
-    start == period ? s = 1 : s = 2;
+    start == "spring" ? s = 1 : s = 2;
     if(localStorage.getItem("y" + y + "s" + s + "c" + c) === null){
       return "y" + y + "s" + s + "c" + c
     }
@@ -302,6 +343,12 @@ function handleDragEnd(e) {
 
     if (this.classList.contains('courseplace')) {
       this.setAttribute("draggable","false");
+    }
+
+    for (var i = 0; i < localStorage.length; i++){
+      id = localStorage.key(i);
+      if (id != 'start')
+        checkprereq(id);
     }
   } 
 
