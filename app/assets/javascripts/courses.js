@@ -3,12 +3,12 @@ $(function(){
 
     var courseplaces = document.querySelectorAll('.courseplace');
     [].forEach.call(courseplaces, function(courseplace){
-      addStartEnd(courseplace);
+      addStartEndListeners(courseplace);
     });
 
     var courses = document.querySelectorAll('.course');
     [].forEach.call(courses, function(course){
-      addStartEnd(course);
+      addStartEndListeners(course);
     });
 
     var notdraggables = document.querySelectorAll('.bin');
@@ -22,23 +22,16 @@ $(function(){
 
     $(".icon-plus").click(function() {
       $("#course5").show();
-
       $("#curriculum").css("width","975");
-
       $(".course5").show('slow');
-
       $(".icon-plus").hide();
     });
 
     $(".icon-remove-circle").click(function() {
       $("#curriculum").css("width","1050"); //fix for weird resizing of first column
       $("#course5").hide('slow');
-
       $(".course5").hide('slow');
-   
-
       $(".icon-plus").show();
-
       $("#curriculum").css("width","815");
   });
 
@@ -47,24 +40,23 @@ $(function(){
     for (var i = 0; i < localStorage.length; i++){
       id = localStorage.key(i);
       $('#' + id).html(localStorage.getItem(id));
-      $('#' + id).addClass(localStorage.getItem(id + ' - major'));
       $('#' + id).addClass('course');
       $('#' + id).attr("draggable","true");
     }
 
   $('.february').click(function(){
-    a = $('div.spring.courseplace');
-    b = $('div.fall.courseplace');
+    //Flip the period on the courseplaces
+    $('div.courseplace').each(function(){
+      $(this).getAttribute('data-period') == "fall" ? $(this).setAttribute('data-period','spring') : $(this).setAttribute('data-period','fall');
+    });
 
-    a.removeClass('spring').addClass('fall');
-    b.removeClass('fall').addClass('spring');
-
-    $('.courseplace').html('').removeClass('course SCI SSC HUM');
+    $('.courseplace').html('').removeAttribute('data-major');
 
     $('.period').each(function(){
       $(this).html() == "Fall" ? $(this).html('Spring') : $(this).html('Fall');
     });
 
+    // Clean up localStorage
     var period = localStorage['start'];
     localStorage.clear();
     period == 'fall' ? localStorage['start'] = 'spring' : localStorage['start'] = 'fall';
@@ -72,7 +64,7 @@ $(function(){
 
 });
 
-function addStartEnd(e) {
+function addStartEndListeners(e) {
   e.addEventListener('dragstart', handleDragStart, false);
   e.addEventListener('dragend', handleDragEnd, false);
 }
@@ -90,16 +82,12 @@ var flipmajor;
 
 var period;
 
-function getMajor(source){
-  if(source.classList.contains("SCI")){
-    return "SCI";
-  }
-  if(source.classList.contains("SSC")){
-    return "SSC" ;
-  } 
-  if(source.classList.contains("HUM")){
-    return "HUM";
-  }
+function addListeners(){
+  this.classList.add('over');
+  this.addEventListener('dragenter', handleDragEnter, false);
+  this.addEventListener('dragover', handleDragOver, false);
+  this.addEventListener('dragleave', handleDragLeave, false);
+  this.addEventListener('drop', handleDrop, false);
 }
 
 function handleDragStart(e) {
@@ -108,43 +96,30 @@ function handleDragStart(e) {
 
   allowDelete = false;
 
-  major = getMajor(this);
+  major = this.getAttribute('data-major');
 
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/plain', this.innerHTML);
 
-  if (this.classList.contains("spring")) {
+
+
+  if (this.getAttribute('data-period') == "spring") {
+    //fix selecting - maybe possible to call adListeners directly on jQuery select
     $('.courseplace.spring').each(function(){
-      this.classList.add('over');
-      this.addEventListener('dragenter', handleDragEnter, false);
-      this.addEventListener('dragover', handleDragOver, false);
-      this.addEventListener('dragleave', handleDragLeave, false);
-      this.addEventListener('drop', handleDrop, false);
+      this.addListeners();
    });
   } 
-  else if(this.classList.contains("fall")){
+  else if(this.getAttribute('data-period') == "fall"){
     $('.courseplace.fall').each(function(){
-      this.classList.add('over');
-      this.addEventListener('dragenter', handleDragEnter, false);
-      this.addEventListener('dragover', handleDragOver, false);
-      this.addEventListener('dragleave', handleDragLeave, false);
-      this.addEventListener('drop', handleDrop, false);
+     this.addListeners();
    });
-  } else if(this.classList.contains("intensive-spring")){
+  } else if(this.getAttribute('data-period') == "intensive-fall"){
     $('.intensive-fall').each(function(){
-      this.classList.add('over');
-      this.addEventListener('dragenter', handleDragEnter, false);
-      this.addEventListener('dragover', handleDragOver, false);
-      this.addEventListener('dragleave', handleDragLeave, false);
-      this.addEventListener('drop', handleDrop, false);
+      this.addListeners();
    });
-  } else if(this.classList.contains("intensive-spring")){
+  } else if(this.getAttribute('data-period') == "intensive-spring"){
     $('.intensive-spring').each(function(){
-      this.classList.add('over');
-      this.addEventListener('dragenter', handleDragEnter, false);
-      this.addEventListener('dragover', handleDragOver, false);
-      this.addEventListener('dragleave', handleDragLeave, false);
-      this.addEventListener('drop', handleDrop, false);
+      this.addListeners();
    });
   }
 }
@@ -190,17 +165,15 @@ function handleDrop(e) {
   if (!this.classList.contains("bin")){
     if(flip){
       flipcourse = this.innerHTML;
-      flipmajor = getMajor(this);
-      this.classList.remove(flipmajor);
+      flipmajor = this.getAttribute('data-major');
     }
 
     this.innerHTML = e.dataTransfer.getData('text/plain');
     this.setAttribute("draggable","true");
     this.classList.add("course");
-    this.classList.add(major);
+    this.setAttribute('data-major', major);
 
     localStorage[String($(this).attr('id'))] = e.dataTransfer.getData('text/plain');
-    localStorage[String($(this).attr('id')) + ' - major'] = major;
   }
 
   allowDelete = true;
@@ -213,11 +186,10 @@ function handleDragEnd(e) {
   // this/e.target is the source node.
   if(allowDelete && !dragOnSelf && !flip) {
     this.classList.remove('course');
-    this.classList.remove(major);
+    this.removeAttribute('data-major')
     this.innerHTML = '';
 
     localStorage.removeItem(String($(this).attr('id')));
-    localStorage.removeItem(String($(this).attr('id')) + ' - major');
 
     if (this.classList.contains('courseplace')) {
     this.setAttribute("draggable","false");
@@ -225,13 +197,12 @@ function handleDragEnd(e) {
   } 
 
   if(flip){
-    this.classList.remove(major);
-    this.classList.add(flipmajor);
+    this.removeAttribute('data-major')
+    this.setAttribute('data-major', flipmajor)
 
     this.innerHTML = flipcourse;
 
     localStorage[String($(this).attr('id'))] = flipcourse;
-    localStorage[String($(this).attr('id')) + ' - major'] = flipmajor;
   }
 
   this.style.opacity = '1';
