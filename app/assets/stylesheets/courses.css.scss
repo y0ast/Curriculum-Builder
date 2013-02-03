@@ -26,7 +26,7 @@
   width: 170px;
 }
 
-div[data-major="SCI"]{ 
+div[data-major="SCI"]{
   background-color: #D6C6A5;
 }
 
@@ -37,6 +37,15 @@ div[data-major="SSC"]{
 div[data-major="HUM"]{ 
   background-color: #B6CEE3;
 }
+
+i[data-original-title]{
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    width: 14px;
+    height: 14px;
+    border: 8px solid red
+  }
 
 .course {
   li {
