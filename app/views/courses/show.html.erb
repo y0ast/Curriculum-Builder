@@ -36,6 +36,10 @@
 				<td>Major:</td>
 				<td><%= @course.major.name %></td>
 			</tr>
+			<tr>
+				<td>Prerequisites:</td>
+				<td><%= @course.prerequisites.map(&:name).join(", ") %></td>
+			</tr>
 		</tbody>
 	</table>
 </div>
