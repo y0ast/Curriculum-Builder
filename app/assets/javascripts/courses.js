@@ -97,155 +97,12 @@ function storagetodiv(id){
    checkprereq(id);
 }
 
-function findintensiveplace(start, period, y, s){
-  if(period.indexOf("fall") != -1 && period.indexOf("spring") != -1){
-     if(localStorage.getItem("y" + y + "in" + s) === null){
-      return "y" + y + "in" + s
-    }
-    else if (s < 2){
-      return findintensiveplace(start, period, y, s+1)
-    }
-    else if (y < 3){
-      return findintensiveplace(start, period, y+1, 1)
-    }
-    else {
-      return "y1in1"
-    }
-  } 
-  else if (period.indexOf("fall") != -1) {
-    start == "fall" ? s = 1 : s = 2;
-    if(localStorage.getItem("y" + y + "in" + s) === null){
-      return "y" + y + "in" + s
-    }
-    else if (y < 3){
-      return findintensiveplace(start, period, y+1, s)
-    }
-    else {
-      return "y1in" + 2
-    }
-  }
-  else if (period.indexOf("spring") != -1){
-    start == "spring" ? s = 1 : s = 2;
-    if(localStorage.getItem("y" + y + "in" + s) === null){
-      return "y" + y + "in" + s
-    }
-    else if (y < 3){
-      return findintensiveplace(start, period, y+1, s)
-    }
-    else {
-      return "y1in" + 2
-    }
-  }
-}
-
-function findplace(start, period, y, s, c){
-  var amountOfCourses = 4;
-
-  $('#course5').is(":visible") ? amountOfCourses = 5 : amountOfCourses = 4;
-
-  if(period.indexOf("fall") != -1 && period.indexOf("spring") != -1){
-    if(localStorage.getItem("y" + y + "s" + s + "c" + c) === null){
-      return "y" + y + "s" + s + "c" + c
-    }
-    else if(c < amountOfCourses){
-      return findplace(start,period, y , s, c+1)
-    }
-    else if(s == 1){
-      return findplace(start,period, y , 2, 1)
-    }
-    else if(y < 3){
-      return findplace(start,period, y+1, 1, 1)
-    }
-    else {
-      return "y1s1c1";
-    }
-  }
-  else if (period.indexOf("fall") != -1) {
-    start == "fall" ? s = 1 : s = 2;
-
-    if(localStorage.getItem("y" + y + "s" + s + "c" + c) === null){
-      return "y" + y + "s" + s + "c" + c
-    }
-    else if(c < amountOfCourses){
-      return findplace(start,period, y , s, c+1)
-    }
-    else if(y < 3){
-      return findplace(start,period, y+1, s, 1)
-    }
-    else {
-      return "y1s1c1";
-    }
-  } else if (period.indexOf("spring") != -1){
-    start == "spring" ? s = 1 : s = 2;
-    if(localStorage.getItem("y" + y + "s" + s + "c" + c) === null){
-      return "y" + y + "s" + s + "c" + c
-    }
-    else if(c < amountOfCourses){
-      return findplace(start,period, y , s, c+1)
-    }
-    else if(y < 3){
-      return findplace(start,period, y+1, s, 1)
-    }
-    else {
-      return "y1s1c1";
-    }
-  }
-}
-
-function checkprereq(id){
-  prerequisites = JSON.parse(localStorage.getItem(id)).prerequisites;
-  split = id.split("");
-  var y = split[1];
-  var s = 2
-
- for (var i = 1; i <= y; i++) {
-  if (i == y)
-    s = split[3] - 1;
-   for (var j = 1; j <= s; j++) {
-     for (var k = 1; k <= 5; k++) {
-      if (localStorage.getItem("y" + i + "s" + j + "c" + k) != undefined){
-        index = prerequisites.indexOf(JSON.parse(localStorage.getItem("y" + i + "s" + j + "c" + k)).id);
-      if (index != -1){
-        prerequisites.splice(index,1);
-      }
-        } 
-      }
-    }
-  }
-
-  if(prerequisites.length == 0) 
-    return true;
-  else
-     return setPrereqTooltips(prerequisites,id)
-}
-
-function setPrereqTooltips(prereqid, course){
-  console.log(prereqid);
-  console.log(course);
-  $.getJSON('/courses.json', {"id" : prereqid}, function(data) {
-    var items = 'Missing prerequisites: <br/> <ul class="unstyled">';
- 
-    $.each(data, function(key,val) {
-      items += '<li>' + val.name + '</li>';
-    });
-
-    items += '</ul>'
-    console.log(items)
-    $('#' + course + "> div > a > i").attr('data-placement', 'right').attr('data-original-title',items).tooltip('fixTitle');
-  });
-
-  return true;
-}
-
 
 if(!localStorage['start'])
   localStorage['start'] = 'fall';
 
 var allowDelete = false;
 var dragOnSelf = false;
-
-var flip = false;
-var flipcourse;
 
 
 function addListeners(place){
@@ -300,10 +157,6 @@ function handleDragLeave(e) {
 function handleDrop(e) {
   // this/e.target is current target element.
 
-  if(this.classList.contains('course')){
-    flip = true;
-  }
-
   //seems unnecessary for now
   // if (e.stopPropagation) {
   //   e.stopPropagation(); // Stops some browsers from redirecting. 
@@ -318,10 +171,6 @@ function handleDrop(e) {
   }
 
   if (!this.classList.contains("bin")){
-    if(flip){
-      flipcourse = localStorage[this.id];
-    }
-
     localStorage[this.id] = localStorage[e.dataTransfer.getData('text/plain')];
     storagetodiv(this.id);
   }
@@ -334,7 +183,7 @@ function handleDrop(e) {
 
 function handleDragEnd(e) {
   // this/e.target is the source node.
-  if (allowDelete && !dragOnSelf && !flip) {
+  if (allowDelete && !dragOnSelf) {
     this.classList.remove('course');
     this.removeAttribute('data-major')
     this.innerHTML = '';
@@ -348,20 +197,12 @@ function handleDragEnd(e) {
     for (var i = 0; i < localStorage.length; i++){
       id = localStorage.key(i);
       if (id != 'start')
-        checkprereq(id);
+        storagetodiv(id);
     }
   } 
 
-  //Not checking if flipped course is allowd on that spot: this.classList.contains(flipcourse.period)
-
-  if(flip){
-    localStorage[this.id] = flipcourse;
-    storagetodiv(this.id);
-  }
-
   this.style.opacity = '1';
   dragOnSelf = false;
-  flip = false;
 
   $('.courseplace').each(function(){
       this.classList.remove('over');

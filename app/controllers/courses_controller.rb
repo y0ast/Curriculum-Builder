@@ -3,6 +3,16 @@ class CoursesController < ApplicationController
   	@course = Course.new
   end
 
+  def create
+    @course = Course.new(params[:course])
+ 
+    if @course.save
+      redirect_to :action => 'show', :id => @course.id
+    else
+       render :action => "new" 
+    end
+  end
+
   def edit
     @course = Course.find(params[:id])
   end

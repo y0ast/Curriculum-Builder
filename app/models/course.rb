@@ -23,13 +23,11 @@ class Course < ActiveRecord::Base
     :association_foreign_key => "prerequisite",
     :class_name => "Course"
 
-	attr_accessible :coursecode, :description, :level, :major_id, :name, :teacher, :track, :period_id
+	attr_accessible :coursecode, :description, :level, :major_id, :name, :teacher, :track, :period_id, :prerequisites
 
 	validates :name, presence: true
-	validates :coursecode, :format => { :with => /[0-9]+/, :message => "Only numbers Allowed"}
-	validates :description, presence: true
 	validates :teacher, presence: true
-	validates :level, :length => {:is => 3}
+
 
 	def self.search(search)
 	  if search

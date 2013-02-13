@@ -29,7 +29,7 @@
       <%= f.collection_select(:major_id, Major.all, :id, :name) %>
 
       <%= f.label :prerequisite, "Prerequisites - Hold CTRL (cmd for Mac) to select multiple values" %>
-      <%= f.collection_select(:prerequisites, Course.all, :id, :name,{:include_blank => true}, {:multiple => true}) %>
+      <%= f.collection_select(:prerequisites, Course.all, :id, :name, {:include_blank => true}, {:multiple => true}) %>
 
       <%= f.submit "Create this course", class: "btn btn-large btn-primary" %>
     <% end %>
