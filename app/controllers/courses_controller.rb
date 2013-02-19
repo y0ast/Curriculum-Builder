@@ -21,6 +21,7 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:id])
     if @course.update_attributes(params[:course])
       flash[:success] = "Course updated"
+      render 'edit'
     else
       render 'edit'
     end

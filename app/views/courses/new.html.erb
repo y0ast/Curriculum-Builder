@@ -3,6 +3,7 @@
 <div class="row">
   <div class="span6 offset5">
     <%= form_for(@course) do |f| %>
+      <%= render 'shared/error_messages' %>
 
       <%= f.label :course_name %>
       <%= f.text_field :name %>
@@ -29,7 +30,7 @@
       <%= f.collection_select(:major_id, Major.all, :id, :name) %>
 
       <%= f.label :prerequisite, "Prerequisites - Hold CTRL (cmd for Mac) to select multiple values" %>
-      <%= f.collection_select(:prerequisites, Course.all, :id, :name, {:include_blank => true}, {:multiple => true}) %>
+      <%= f.collection_select(:prerequisite_ids, Course.all, :id, :name, {}, {:multiple => true}) %>
 
       <%= f.submit "Create this course", class: "btn btn-large btn-primary" %>
     <% end %>

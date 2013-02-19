@@ -16,24 +16,24 @@
 #
 
 class Course < ActiveRecord::Base
-	belongs_to :period
-	belongs_to :major
-	has_and_belongs_to_many :prerequisites,
-    :join_table => "prerequisites",
-    :association_foreign_key => "prerequisite",
-    :class_name => "Course"
+  belongs_to :period
+  belongs_to :major
+  has_and_belongs_to_many(:prerequisites,
+                          :join_table => "prerequisites",
+                          :foreign_key => "course_a_id",
+                          :association_foreign_key => "course_b_id",
+                          :class_name => "Course")
 
-	attr_accessible :coursecode, :description, :level, :major_id, :name, :teacher, :track, :period_id, :prerequisites
+  attr_accessible :coursecode, :description, :level, :major_id, :name, :teacher, :track, :period_id, :prerequisites, :prerequisite_ids
+  validates :name, presence: true
+  validates :teacher, presence: true
 
-	validates :name, presence: true
-	validates :teacher, presence: true
 
-
-	def self.search(search)
-	  if search
-	    where('name ILIKE ?', "%#{search}%").includes(:major, :period)
-	  else
-	    scoped
-	  end
-	end
+  def self.search(search)
+    if search
+      where('name ILIKE ?', "%#{search}%").includes(:major, :period)
+    else
+      scoped
+    end
+  end
 end

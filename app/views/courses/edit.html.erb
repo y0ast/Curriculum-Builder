@@ -28,7 +28,7 @@
     <%= f.collection_select(:major_id, Major.all, :id, :name) %>
 
     <%= f.label :prerequisite, "Prerequisites - Hold CTRL (cmd for Mac) to select multiple values" %>
-    <%= f.collection_select(:prerequisites, Course.all, :id, :name, {:selected => Prerequisite.where("course_id = ?", @course.id).pluck(:prerequisite), :include_blank => true}, {:multiple => true}) %>
+    <%= f.collection_select(:prerequisite_ids, Course.all, :id, :name, {:selected => Prerequisite.where("course_a_id = ?", @course.id).pluck(:course_b_id)}, {:multiple => true}) %>
 
 
     <%= f.submit "Edit this course", class: "btn btn-large btn-primary" %>
