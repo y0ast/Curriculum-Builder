@@ -122,13 +122,25 @@ function handleDragStart(e) {
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/plain', this.id);
 
-  if (this.getAttribute('data-period').indexOf('spring') >= 0){
+  if(this.getAttribute('data-period').indexOf('intensive-fall') >= 0){
+    $('div.intensive-fall').each(function(){
+        addListeners(this);
+    });
+  }
+
+  else if(this.getAttribute('data-period').indexOf('intensive-spring') >= 0){
+    $('div.intensive-spring').each(function(){
+        addListeners(this);
+    });
+  } 
+
+  else if (this.getAttribute('data-period').indexOf('spring') >= 0){
     $('div.spring').each(function(){
      addListeners(this);
    });
   }
 
-  if (this.getAttribute('data-period').indexOf('fall') >= 0){
+  else if (this.getAttribute('data-period').indexOf('fall') >= 0){
     $('div.fall').each(function(){
      addListeners(this);
    });

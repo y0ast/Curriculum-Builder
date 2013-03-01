@@ -22,7 +22,7 @@ function findintensiveplace(start, period, y, s){
       return findintensiveplace(start, period, y+1, s)
     }
     else {
-      return "y1in" + 2
+      return "y1in" + s
     }
   }
   else if (period.indexOf("spring") != -1){
@@ -34,7 +34,7 @@ function findintensiveplace(start, period, y, s){
       return findintensiveplace(start, period, y+1, s)
     }
     else {
-      return "y1in" + 2
+      return "y1in" + s
     }
   }
 }
